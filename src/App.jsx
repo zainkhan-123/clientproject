@@ -72,8 +72,10 @@ function App() {
 
   const handleInputChange = (e) => {
     const text = e.target.value;
-    setUrduInput(text);
-    const result = text.split('').map(letter => {
+    // Only allow Urdu letters and spaces
+    const urduOnly = text.replace(/[^\u0600-\u06FF\s]/g, '');
+    setUrduInput(urduOnly);
+    const result = urduOnly.split('').map(letter => {
       const categories = classifyLetter(letter);
       const rowValues = {};
       categories.forEach(cat => {
