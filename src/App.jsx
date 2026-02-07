@@ -40,7 +40,7 @@ function App() {
       ]
     },
     atashi: {
-      letters: ['ا/ء/ؤ/ئ', 'ہ', 'ط', 'م', 'ف', 'ش', 'ذ'],
+      letters: ['ا', 'ہ', 'ط', 'م', 'ف', 'ش', 'ذ'],
       rows: [
         { name: "kamri kimat", values: [1, 5, 9, 40, 80, 300, 700] },
         { name: "kamri adad", values: [1, 1, 1, 1, 1, 1, 1] },
