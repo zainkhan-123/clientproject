@@ -24,7 +24,7 @@ function App() {
         { name: "kamri adad", values: [1, 1, 1, 1, 1, 1, 1] },
         { name: "malfuzi kimat", values: [35, 9, 71, 130, 201, 601, 1060] },
         { name: "malfuzi mufrid", values: [8, 9, 8, 4, 3, 7, 7] },
-        { name: "arbic kimat", values: [278, 606, 109, 192, 501, 512, 111] },
+        { name: "arbic kimat", values: [278, 606, 1091, 192, 501, 512, 111] },
         { name: "arbic mufrid", values: [5, 6, 6, 5, 5, 7, 3] }
       ]
     },
