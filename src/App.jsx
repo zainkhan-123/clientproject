@@ -129,16 +129,15 @@ function App() {
 
   const analyzeUltimateResult = (num) => {
     const str = num.toString();
-    const groups = [];
+    const parts = [];
     
-    // Left se 3-3 digits separate karo
-    for (let i = 0; i < str.length; i += 3) {
-      const group = str.slice(i, i + 3);
-      groups.push(group);
+    for (let i = str.length; i > 0; i -= 3) {
+      const start = Math.max(0, i - 3);
+      parts.unshift(str.slice(start, i));
     }
     
     const analysis = [];
-    groups.forEach(part => {
+    parts.forEach(part => {
       const num = parseInt(part);
       const breakdown = [];
       
