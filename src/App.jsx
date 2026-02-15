@@ -24,7 +24,7 @@ function App() {
         { name: "kamri adad", values: [1, 1, 1, 1, 1, 1, 1] },
         { name: "malfuzi kimat", values: [35, 9, 71, 130, 201, 601, 1060] },
         { name: "malfuzi mufrid", values: [8, 9, 8, 4, 3, 7, 7] },
-        { name: "arbic kimat", values: [278, 606, 109, 192, 501, 512, 111] },
+        { name: "arbic kimat", values: [278, 606, 1091, 192, 501, 512, 111] },
         { name: "arbic mufrid", values: [5, 6, 6, 5, 5, 7, 3] }
       ]
     },
@@ -129,33 +129,57 @@ function App() {
 
   const analyzeUltimateResult = (num) => {
     const str = num.toString();
-    const parts = [];
+    const groups = [];
     
-    // RIGHT to LEFT: take 3-3 digits
-    for (let i = str.length; i > 0; i -= 3) {
-      const start = Math.max(0, i - 3);
-      parts.push(str.slice(start, i));
+    // Left se 3-3 digits separate karo
+    for (let i = 0; i < str.length; i += 3) {
+      const group = str.slice(i, i + 3);
+      groups.push(group);
     }
     
-    parts.reverse();
-    
-    return parts.map(part => {
+    const analysis = [];
+    groups.forEach(part => {
+      const num = parseInt(part);
       const breakdown = [];
-      const len = part.length;
       
-      for (let i = 0; i < len; i++) {
-        const digit = parseInt(part[i]);
-        const value = digit * Math.pow(10, len - i - 1);
-        if (value === 0) {
-          breakdown.push({ value: 0, letter: '0', system: 'zero' });
-        } else {
-          const info = findLetterForValue(value);
-          if (info) breakdown.push({ value, ...info });
+      if (num >= 100) {
+        const hundreds = Math.floor(num / 100) * 100;
+        const tens = Math.floor((num % 100) / 10) * 10;
+        const ones = num % 10;
+        if (hundreds > 0) {
+          const info = findLetterForValue(hundreds);
+          if (info) breakdown.push({ value: hundreds, ...info });
         }
+        if (tens > 0) {
+          const info = findLetterForValue(tens);
+          if (info) breakdown.push({ value: tens, ...info });
+        }
+        if (ones > 0) {
+          const info = findLetterForValue(ones);
+          if (info) breakdown.push({ value: ones, ...info });
+        }
+      } else if (num >= 10) {
+        const tens = Math.floor(num / 10) * 10;
+        const ones = num % 10;
+        if (tens > 0) {
+          const info = findLetterForValue(tens);
+          if (info) breakdown.push({ value: tens, ...info });
+        }
+        if (ones > 0) {
+          const info = findLetterForValue(ones);
+          if (info) breakdown.push({ value: ones, ...info });
+        }
+      } else if (num > 0) {
+        const info = findLetterForValue(num);
+        if (info) breakdown.push({ value: num, ...info });
       }
       
-      return { original: part, breakdown };
+      if (breakdown.length > 0) {
+        analysis.push({ original: num, breakdown });
+      }
     });
+    
+    return analysis;
   };
 
   const categorizeBreakdown = () => {
@@ -265,7 +289,7 @@ function App() {
               </div>
             </div>
 
-            <div className="highlight-box">
+            <div className="highlight-box" style={{display: 'none'}}>
               <div className="label">Grand Total</div>
               <div className="value">{calculateGrandTotal().toLocaleString()}</div>
             </div>
@@ -305,12 +329,12 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="highlight-box">
+                  <div className="highlight-box" style={{display: 'none'}}>
                     <div className="label">Final Result</div>
                     <div className="value">{rightSum} × {leftSum} = {finalResult.toLocaleString()}</div>
                   </div>
 
-                  <div className="highlight-box">
+                  <div className="highlight-box" style={{display: 'none'}}>
                     <div className="label">Ultimate Result</div>
                     <div className="value">{ultimateResult.toLocaleString()}</div>
                     <div className="label" style={{marginTop: '0.5rem', fontSize: '0.8rem'}}>
