@@ -138,13 +138,13 @@ function App() {
     
     const analysis = [];
     parts.forEach(part => {
-      const num = parseInt(part);
       const breakdown = [];
+      const len = part.length;
       
-      if (num >= 100) {
-        const hundreds = Math.floor(num / 100) * 100;
-        const tens = Math.floor((num % 100) / 10) * 10;
-        const ones = num % 10;
+      if (len === 3) {
+        const hundreds = parseInt(part[0]) * 100;
+        const tens = parseInt(part[1]) * 10;
+        const ones = parseInt(part[2]);
         if (hundreds > 0) {
           const info = findLetterForValue(hundreds);
           if (info) breakdown.push({ value: hundreds, ...info });
@@ -157,9 +157,9 @@ function App() {
           const info = findLetterForValue(ones);
           if (info) breakdown.push({ value: ones, ...info });
         }
-      } else if (num >= 10) {
-        const tens = Math.floor(num / 10) * 10;
-        const ones = num % 10;
+      } else if (len === 2) {
+        const tens = parseInt(part[0]) * 10;
+        const ones = parseInt(part[1]);
         if (tens > 0) {
           const info = findLetterForValue(tens);
           if (info) breakdown.push({ value: tens, ...info });
@@ -168,13 +168,16 @@ function App() {
           const info = findLetterForValue(ones);
           if (info) breakdown.push({ value: ones, ...info });
         }
-      } else if (num > 0) {
-        const info = findLetterForValue(num);
-        if (info) breakdown.push({ value: num, ...info });
+      } else if (len === 1) {
+        const ones = parseInt(part[0]);
+        if (ones > 0) {
+          const info = findLetterForValue(ones);
+          if (info) breakdown.push({ value: ones, ...info });
+        }
       }
       
       if (breakdown.length > 0) {
-        analysis.push({ original: num, breakdown });
+        analysis.push({ original: part, breakdown });
       }
     });
     
